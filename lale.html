@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lale & Mustafa Kemal – Einladung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ====== Hier anpassen ====== */
+:root{
+  --paper:#f7f0e5; --paper2:#efe4d3; --ink:#4b3a2c; --soft:#7a6552;
+  --gold:#a8814f; --gold-d:#7a5a35; --line:#dccaae; --brown:#6e5440;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Cormorant Garamond",Georgia,serif;color:var(--ink);
+  background:radial-gradient(120% 90% at 50% 40%,#efe3d1 0%,#dcc7a9 55%,#b99a76 100%);
+  min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+.bokeh{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.bokeh i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,250,240,.55),rgba(255,250,240,0) 70%);filter:blur(2px)}
+.bg-flowers{position:fixed;pointer-events:none;z-index:1;opacity:.95}
+
+.stage{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:64px 16px 32px}
+.screen{display:none;width:100%;max-width:440px;flex-direction:column;align-items:center}
+.screen.active{display:flex;animation:fadeIn .9s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- Language toggle ---------- */
+.lang{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:20;display:flex;
+  background:rgba(247,240,229,.85);border:1px solid var(--line);border-radius:999px;padding:3px;backdrop-filter:blur(6px)}
+.lang button{border:0;background:transparent;font:600 13px/1 "Cormorant Garamond",serif;letter-spacing:.12em;color:var(--brown);
+  padding:7px 16px;border-radius:999px;cursor:pointer;transition:.3s}
+.lang button.on{background:var(--brown);color:#f7f0e5}
+
+/* ---------- Envelope ---------- */
+.env-wrap{perspective:1400px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.env{position:relative;width:min(86vw,390px);aspect-ratio:1.45;filter:drop-shadow(0 18px 30px rgba(80,55,30,.28))}
+.env .back{position:absolute;inset:0;background:linear-gradient(#efe5d5,#e8dcc8);border-radius:6px}
+.env .letter{position:absolute;left:7%;right:7%;top:8%;height:84%;background:var(--paper);border-radius:4px;z-index:2;
+  display:flex;align-items:flex-start;justify-content:center;padding-top:9%;text-align:center;transition:transform 1s cubic-bezier(.5,0,.2,1) .9s;
+  box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.env .letter span{font-family:"Great Vibes",cursive;font-size:clamp(24px,6.4vw,32px);line-height:1.1;color:var(--gold-d);opacity:.9;padding:0 6%}
+.env .front{position:absolute;inset:0;z-index:3;border-radius:6px;
+  clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);
+  background:var(--lace) ,linear-gradient(#f3eadc,#eadfcd)}
+.env .flap{position:absolute;left:0;right:0;top:0;height:62%;z-index:4;transform-origin:top center;
+  transition:transform .9s cubic-bezier(.4,0,.2,1) .25s, z-index 0s .7s;}
+.env .flap .tri{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 100%);
+  background:var(--lace),linear-gradient(#f6eee2,#ece1cf);border-top-left-radius:6px;border-top-right-radius:6px}
+.env .mono{position:absolute;left:0;right:0;top:20%;text-align:center;z-index:5;font-size:clamp(28px,7.5vw,38px);
+  letter-spacing:.06em;color:var(--gold);font-weight:500;transition:opacity .4s;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.env .mono small{font-size:.55em;margin:0 .15em}
+.seal{position:absolute;left:50%;top:62%;width:clamp(64px,18vw,82px);aspect-ratio:1;transform:translate(-50%,-50%);z-index:6;
+  transition:transform .45s ease, opacity .45s ease}
+.env-wrap.open .flap{transform:rotateX(180deg);z-index:1}
+.env-wrap.open .letter{transform:translateY(-46%)}
+.env-wrap.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+.env-wrap.open .mono{opacity:0}
+.hint{margin-top:34px;text-align:center;color:#5e4632;font-size:19px;letter-spacing:.03em;text-shadow:0 1px 8px rgba(255,248,236,.8)}
+.chev{display:block;margin:10px auto 0;width:22px;height:12px;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
+
+/* ---------- Card ---------- */
+.card{position:relative;width:100%;background:
+  radial-gradient(120% 80% at 50% 45%,#fbf6ee 0%,var(--paper) 55%,var(--paper2) 100%);
+  border-radius:10px;padding:56px 34px 46px;text-align:center;overflow:hidden;
+  box-shadow:0 22px 50px rgba(70,45,20,.28),0 2px 6px rgba(70,45,20,.12)}
+.card::before{content:"";position:absolute;inset:12px;border:1px solid var(--line);border-radius:6px;pointer-events:none}
+.card::after{content:"";position:absolute;inset:17px;border:1px solid rgba(220,202,174,.55);border-radius:4px;pointer-events:none}
+.card > *{position:relative;z-index:3}
+.card .deco{position:absolute;z-index:1;pointer-events:none}
+.lace-band{position:absolute;left:0;right:0;height:26px;z-index:2;pointer-events:none;opacity:.9}
+.lace-band.top{top:0}.lace-band.bot{bottom:0;transform:scaleY(-1)}
+
+.lead{font-size:18px;line-height:1.35;color:var(--soft);max-width:300px;margin:0 auto}
+.names{font-family:"Great Vibes",cursive;font-weight:400;color:#3e2f24;font-size:clamp(46px,13vw,60px);line-height:1.02;margin:18px 0 22px}
+.facts{display:inline-grid;grid-template-columns:30px auto;gap:14px 14px;text-align:left;align-items:start;margin:0 auto}
+.facts svg{width:24px;height:24px;margin-top:3px;stroke:var(--gold-d)}
+.facts .big{font-size:22px;line-height:1.25}
+.facts .sm{font-size:18px;line-height:1.3;color:var(--ink)}
+.facts a{color:var(--gold-d);font-size:15px;letter-spacing:.04em;text-decoration:none;border-bottom:1px solid var(--line)}
+.divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:24px auto;color:var(--gold)}
+.divider::before,.divider::after{content:"";width:70px;height:1px;background:var(--line)}
+.divider svg{width:14px;height:14px}
+.note{font-size:17px;line-height:1.45;color:var(--soft);max-width:300px;margin:0 auto}
+.dress{margin-top:14px;font-size:16px;color:var(--soft)}
+.q{font-size:clamp(26px,7vw,30px);line-height:1.25;font-weight:500;margin:6px 0 30px}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:290px;margin:0 auto 14px;
+  padding:14px 20px;border-radius:999px;border:1px solid #cdb592;cursor:pointer;text-decoration:none;
+  font:500 19px/1.1 "Cormorant Garamond",serif;color:var(--ink);
+  background:var(--lace-sm),linear-gradient(#f4ebdd,#eadcc6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 8px rgba(110,84,64,.15);transition:transform .15s, box-shadow .2s}
+.btn:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 5px 14px rgba(110,84,64,.22)}
+.btn:active{transform:scale(.98)}
+.btn svg{width:20px;height:20px;stroke:var(--brown);flex:none}
+.btn.dark{background:linear-gradient(#7a5d46,#614835);color:#f7f0e5;border-color:#5a4230}
+.btn.dark svg{stroke:#f7f0e5}
+.link{background:none;border:0;color:var(--soft);font:italic 16px "Cormorant Garamond",serif;cursor:pointer;margin-top:6px;
+  text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+
+.field{width:100%;max-width:290px;margin:0 auto 22px;text-align:left}
+.field label{display:block;font-size:15px;letter-spacing:.06em;color:var(--soft);margin:0 0 6px 14px}
+.field input{width:100%;padding:13px 18px;border-radius:999px;border:1px solid #d6c3a5;background:#fffaf2;
+  font:500 19px "Cormorant Garamond",serif;color:var(--ink);outline:none}
+.field input:focus{border-color:var(--gold)}
+.field input.err{border-color:#b5654a;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+.stepper{display:flex;align-items:stretch;max-width:290px;margin:0 auto;border-radius:999px;overflow:hidden;border:1px solid #cdb592;
+  background:var(--lace-sm),linear-gradient(#f4ebdd,#eadcc6)}
+.stepper button{flex:1;border:0;background:transparent;font:400 30px/1 "Cormorant Garamond",serif;color:var(--brown);cursor:pointer;padding:14px 0}
+.stepper button:disabled{opacity:.3;cursor:default}
+.stepper output{flex:1.2;display:flex;align-items:center;justify-content:center;font-size:38px;background:#f8f1e6;
+  border-left:1px solid #dcc9ab;border-right:1px solid #dcc9ab}
+.incl{font-size:16px;color:var(--soft);margin:10px 0 28px}
+
+.check{width:62px;height:62px;border-radius:50%;background:#6e5440;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;
+  box-shadow:0 4px 12px rgba(80,55,30,.3)}
+.check svg{width:30px;height:30px;stroke:#f7f0e5}
+.thanks-title{font-size:clamp(27px,7.4vw,31px);line-height:1.25;font-weight:500}
+.sprig{width:90px;height:60px;margin:0 auto}
+.closing{margin-top:26px;padding-top:4px}
+.closing .names{font-size:40px;margin:6px 0 6px}
+.closing .meta{font-size:15px;letter-spacing:.14em;color:var(--soft)}
+.rings{width:84px;margin:14px auto 0;display:block}
+.pending{margin-top:14px;font-size:15px;color:var(--soft);font-style:italic}
+
+@media (max-width:380px){.card{padding:52px 24px 42px}.facts .big{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="bokeh" id="bokeh"></div>
+
+<div class="lang" id="lang" style="display:none">
+  <button data-l="de" class="on">DE</button><button data-l="tr">TR</button>
+</div>
+
+<main class="stage">
+
+  <!-- 1 + 2: Umschlag -->
+  <section class="screen active" id="s-env">
+    <div class="env-wrap" id="envWrap" role="button" tabindex="0" aria-label="Einladung öffnen">
+      <div class="env">
+        <div class="back"></div>
+        <div class="letter"><span>Lale &amp; Mustafa Kemal</span></div>
+        <div class="front"></div>
+        <div class="flap"><div class="tri"></div></div>
+        <div class="mono">L <small>&amp;</small> MK</div>
+        <svg class="seal" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <radialGradient id="sg" cx="38%" cy="32%" r="75%">
+              <stop offset="0" stop-color="#e8cf9c"/><stop offset=".45" stop-color="#c39a5c"/><stop offset="1" stop-color="#8a6332"/>
+            </radialGradient>
+            <radialGradient id="sg2" cx="60%" cy="70%" r="70%">
+              <stop offset="0" stop-color="#a77d45"/><stop offset="1" stop-color="#d9bc84"/>
+            </radialGradient>
+          </defs>
+          <path d="M50 3c8 0 11 4 18 6s13 3 17 10 1 13 4 20 8 10 6 18-9 9-12 16-3 13-10 17-13 0-20 3-11 6-18 4-8-7-15-10-14-2-18-9 0-13-3-20-8-11-6-19 9-9 12-16 3-13 10-17 13 0 20-3 7-8 15-8z" fill="url(#sg)"/>
+          <circle cx="50" cy="51" r="31" fill="url(#sg2)" stroke="#8a6332" stroke-width="1.2"/>
+          <circle cx="50" cy="51" r="27" fill="none" stroke="#f1dcae" stroke-width=".8" opacity=".7"/>
+          <text x="50" y="50" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="15" font-weight="600" fill="#6d4c25">L&amp;MK</text>
+          <path d="M50 66c-6-4-9-7-9-10a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1c0 3-3 6-9 10z" fill="none" stroke="#6d4c25" stroke-width="1.3"/>
+        </svg>
+      </div>
+    </div>
+    <p class="hint" id="hint"><span data-i="tap">Bitte klicken, um die Einladung zu öffnen</span>
+      <svg class="chev" viewBox="0 0 22 12" fill="none" stroke="#5e4632" stroke-width="1.5"><path d="M1 1l10 10L21 1"/></svg></p>
+  </section>
+
+  <!-- 3 + 4: Einladung -->
+  <section class="screen" id="s-invite">
+    <div class="card">
+      <p class="lead" data-i="invite">Wir laden euch herzlich zu unserer Hochzeit ein</p>
+      <h1 class="names">Lale &amp;<br>Mustafa Kemal</h1>
+      <div class="facts">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <div><div class="big" data-i="date">15.01.2027</div><div class="big" data-i="time">17:00 Uhr</div></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        <div class="sm"><span data-i="hall">Ballsaal:</span><br>Sieker Landstraße 119<br>22143 Hamburg<br>
+          <a href="https://www.google.com/maps/search/?api=1&query=Sieker+Landstra%C3%9Fe+119+22143+Hamburg" target="_blank" rel="noopener" data-i="map">Route anzeigen</a></div>
+      </div>
+      <div class="divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg></div>
+      <p class="note" data-i="wish">Wir freuen uns sehr, diesen besonderen Tag mit euch gemeinsam zu feiern.</p>
+      <p class="dress" data-i="dress">Dresscode: Festlich &amp; elegant</p>
+      <div style="height:28px"></div>
+      <button class="btn dark" data-go="s-q"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg><span data-i="toRsvp">Zur Rückmeldung</span></button>
+    </div>
+  </section>
+
+  <!-- 5: Frage -->
+  <section class="screen" id="s-q">
+    <div class="card">
+      <h2 class="q" data-i="q">Könnt ihr zu unserer Hochzeit kommen?</h2>
+      <button class="btn" data-answer="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg><span data-i="yes">Ja, wir kommen</span></button>
+      <button class="btn" data-answer="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-i="no">Leider nicht</span></button>
+      <div class="divider"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg></div>
+      <p class="note" data-i="looking">Wir freuen uns auf eure Rückmeldung!</p>
+      <button class="link" data-go="s-invite" data-i="back">Zurück zur Einladung</button>
+    </div>
+  </section>
+
+  <!-- 6: Details -->
+  <section class="screen" id="s-detail">
+    <div class="card">
+      <h2 class="q" id="detailQ" data-i="howMany">Mit wie vielen Personen kommt ihr?</h2>
+      <div class="field">
+        <label for="name" data-i="nameLbl">Euer Name</label>
+        <input id="name" autocomplete="name" placeholder="z. B. Familie Yılmaz">
+      </div>
+      <div id="countBox">
+        <div class="stepper">
+          <button id="minus" aria-label="weniger">–</button>
+          <output id="count">2</output>
+          <button id="plus" aria-label="mehr">+</button>
+        </div>
+        <p class="incl" data-i="incl">(inkl. euch)</p>
+      </div>
+      <a class="btn dark" id="send" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4 18-7z"/></svg><span data-i="send">Antwort senden</span></a>
+      <p class="pending" data-i="viaWa">Die Antwort wird per WhatsApp an uns geschickt.</p>
+      <button class="link" data-go="s-q" data-i="back2">Zurück</button>
+    </div>
+  </section>
+
+  <!-- 7 + 8 + 9: Danke -->
+  <section class="screen" id="s-thanks">
+    <div class="card">
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 class="thanks-title" id="thxTitle" data-i="thx">Vielen Dank<br>für eure Rückmeldung!</h2>
+      <div class="divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg></div>
+      <svg class="sprig" viewBox="0 0 90 60" fill="none">
+        <path d="M10 55C30 45 45 30 70 10" stroke="#a89474" stroke-width="1"/>
+        <path d="M30 44c-4-6-12-6-14-4 4 3 9 5 14 4zM44 33c2-7-3-13-6-13 0 5 2 10 6 13zM52 26c6 1 11-3 11-6-5 0-9 2-11 6z" fill="#b9ab8c" opacity=".8"/>
+        <g fill="#fffaf2" stroke="#c9b48e" stroke-width=".7"><circle cx="70" cy="10" r="4"/><circle cx="62" cy="15" r="3.2"/><circle cx="76" cy="17" r="3"/><circle cx="58" cy="7" r="2.6"/><circle cx="38" cy="38" r="2.6"/></g>
+        <g fill="#d8bf8e"><circle cx="70" cy="10" r="1.2"/><circle cx="62" cy="15" r="1"/><circle cx="76" cy="17" r="1"/></g>
+      </svg>
+      <p class="note" style="margin-top:14px" id="thxNote" data-i="thxYes">Wir freuen uns sehr, dass ihr dabei seid!</p>
+      <p class="pending" id="waHint" data-i="waHint">Falls WhatsApp nicht aufgegangen ist:</p>
+      <a class="link" id="resend" href="#" target="_blank" rel="noopener" data-i="resend">Antwort erneut senden</a>
+      <div class="closing">
+        <div class="divider" style="margin:10px auto 6px"></div>
+        <div class="names">Lale &amp; Mustafa Kemal</div>
+        <div class="meta">15.01.2027 &nbsp;|&nbsp; HAMBURG</div>
+        <svg class="rings" viewBox="0 0 84 40" fill="none">
+          <defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#e9cf98"/><stop offset=".5" stop-color="#b98c4c"/><stop offset="1" stop-color="#e2c286"/></linearGradient></defs>
+          <ellipse cx="32" cy="22" rx="20" ry="12" stroke="url(#rg)" stroke-width="4"/>
+          <ellipse cx="52" cy="20" rx="20" ry="12" stroke="url(#rg)" stroke-width="4"/>
+        </svg>
+      </div>
+      <button class="link" data-go="s-invite" data-i="back">Zurück zur Einladung</button>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ====== WhatsApp-Nummer der Brautleute (international, nur Ziffern, z. B. 4917612345678). Leer = Gast wählt den Kontakt selbst. ====== */
+const WA_NUMBERS = {
+  lale: "4917657655139",   // Link …#lale  → Lales Gäste
+  mk:   "",   // Link …#mk    → Mustafa Kemals Gäste
+  "":   "4917657655139"    // Standard: Lale
+};
+function waNumber(){ const h=(location.hash||"").replace("#","").toLowerCase(); return (WA_NUMBERS[h] ?? WA_NUMBERS[""]) || WA_NUMBERS[""]; }
+
+const T = {
+  de:{tap:"Bitte klicken, um die Einladung zu öffnen",opening:"Die Einladung wird geöffnet …",
+    invite:"Wir laden euch herzlich<br>zu unserer Hochzeit ein",date:"15.01.2027",time:"17:00 Uhr",hall:"Ballsaal:",map:"Route anzeigen",
+    wish:"Wir freuen uns sehr, diesen besonderen Tag mit euch gemeinsam zu feiern.",dress:"Dresscode: Festlich &amp; elegant",
+    toRsvp:"Zur Rückmeldung",q:"Könnt ihr zu unserer<br>Hochzeit kommen?",yes:"Ja, wir kommen",no:"Leider nicht",
+    looking:"Wir freuen uns auf eure Rückmeldung!",back:"Zurück zur Einladung",back2:"Zurück",
+    howMany:"Mit wie vielen Personen<br>kommt ihr?",whoNo:"Schade! Verratet ihr uns<br>euren Namen?",nameLbl:"Euer Name",namePh:"z. B. Familie Yılmaz",
+    incl:"(inkl. euch)",send:"Antwort senden",viaWa:"Die Antwort wird per WhatsApp an uns geschickt.",
+    thx:"Vielen Dank<br>für eure Rückmeldung!",thxYes:"Wir freuen uns sehr,<br>dass ihr dabei seid!",thxNo:"Schade, dass ihr nicht dabei sein könnt.<br>Wir denken an euch!",
+    waHint:"Falls WhatsApp nicht aufgegangen ist:",resend:"Antwort erneut senden",
+    msgYes:(n,c)=>`💍 Hochzeit Lale & Mustafa Kemal (15.01.2027)\n\n✅ Zusage von: ${n}\n👥 Personen: ${c}\n\nWir freuen uns!`,
+    msgNo:(n)=>`💍 Hochzeit Lale & Mustafa Kemal (15.01.2027)\n\n❌ Absage von: ${n}\n\nLeider können wir nicht kommen – wir wünschen euch einen wunderschönen Tag!`},
+  tr:{tap:"Davetiyeyi açmak için dokunun",opening:"Davetiye açılıyor …",
+    invite:"Düğünümüze sizleri davet etmekten<br>mutluluk duyarız",date:"15 Ocak 2027",time:"Saat: 17:00",hall:"Balo Salonu:",map:"Yol tarifi",
+    wish:"Bu özel günümüzde sizlerle birlikte olmak dileğiyle…",dress:"Kıyafet: Şık &amp; zarif",
+    toRsvp:"Katılım bildir",q:"Düğünümüze<br>katılabilecek misiniz?",yes:"Evet, geliyoruz",no:"Maalesef gelemiyoruz",
+    looking:"Cevabınızı bekliyoruz!",back:"Davetiyeye geri dön",back2:"Geri",
+    howMany:"Kaç kişi<br>katılacaksınız?",whoNo:"Çok yazık! İsminizi<br>yazar mısınız?",nameLbl:"İsminiz",namePh:"örn. Yılmaz Ailesi",
+    incl:"(siz dahil)",send:"Cevabı gönder",viaWa:"Cevabınız WhatsApp ile bize iletilir.",
+    thx:"Cevabınız için<br>teşekkür ederiz!",thxYes:"Sizleri aramızda görmekten<br>mutluluk duyacağız!",thxNo:"Aramızda olamayacağınız için üzgünüz.<br>Sizi düşüneceğiz!",
+    waHint:"WhatsApp açılmadıysa:",resend:"Cevabı tekrar gönder",
+    msgYes:(n,c)=>`💍 Lale & Mustafa Kemal'in düğünü (15.01.2027)\n\n✅ Katılıyor: ${n}\n👥 Kişi sayısı: ${c}\n\nÇok seviniyoruz!`,
+    msgNo:(n)=>`💍 Lale & Mustafa Kemal'in düğünü (15.01.2027)\n\n❌ Katılamıyor: ${n}\n\nMaalesef gelemiyoruz – size çok güzel bir gün diliyoruz!`}
+};
+let lang="de", answer=null, count=2, opened=false;
+
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i]").forEach(el=>{
+    let k=el.dataset.i;
+    if(el.id==="detailQ") k = answer==="no" ? "whoNo" : "howMany";
+    if(el.id==="thxNote") k = answer==="no" ? "thxNo" : "thxYes";
+    if(k==="tap" && opened) k="opening";
+    const v=T[lang][k]; if(typeof v==="string") el.innerHTML=v;
+  });
+  document.getElementById("name").placeholder=T[lang].namePh;
+  document.querySelectorAll("#lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===lang));
+  updateLink();
+}
+document.querySelectorAll("#lang button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;applyLang()});
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.go)));
+
+/* Umschlag öffnen */
+const envWrap=document.getElementById("envWrap");
+function openEnv(){
+  if(opened) return; opened=true;
+  envWrap.classList.add("open"); applyLang();
+  setTimeout(()=>{show("s-invite");document.getElementById("lang").style.display="flex"},2500);
+}
+envWrap.addEventListener("click",openEnv);
+envWrap.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openEnv()}});
+
+/* Antwort */
+document.querySelectorAll("[data-answer]").forEach(b=>b.onclick=()=>{
+  answer=b.dataset.answer;
+  document.getElementById("countBox").style.display = answer==="yes" ? "" : "none";
+  applyLang(); show("s-detail");
+});
+const out=document.getElementById("count"), minus=document.getElementById("minus"), plus=document.getElementById("plus");
+function setCount(n){count=Math.max(1,Math.min(10,n));out.textContent=count;minus.disabled=count<=1;plus.disabled=count>=10;updateLink()}
+minus.onclick=()=>setCount(count-1); plus.onclick=()=>setCount(count+1);
+const nameIn=document.getElementById("name");
+nameIn.addEventListener("input",()=>{nameIn.classList.remove("err");updateLink()});
+
+function waUrl(){
+  const n=nameIn.value.trim();
+  const msg = answer==="no" ? T[lang].msgNo(n) : T[lang].msgYes(n,count);
+  return "https://wa.me/"+waNumber()+"?text="+encodeURIComponent(msg);
+}
+function updateLink(){
+  const u=waUrl();
+  document.getElementById("send").href=u;
+  document.getElementById("resend").href=u;
+}
+document.getElementById("send").addEventListener("click",e=>{
+  if(!nameIn.value.trim()){
+    e.preventDefault(); nameIn.classList.remove("err"); void nameIn.offsetWidth; nameIn.classList.add("err"); nameIn.focus(); return;
+  }
+  updateLink();
+  setTimeout(()=>{applyLang();show("s-thanks")},400);
+});
+setCount(2);
+
+/* ---------- Dekoration: Spitze & Schleierkraut ---------- */
+const lace = `<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='none' stroke='white' stroke-opacity='.75' stroke-width='.8'><circle cx='30' cy='30' r='9'/><circle cx='30' cy='30' r='4'/><path d='M30 21c3-6 9-8 12-6M30 39c-3 6-9 8-12 6M21 30c-6-3-8-9-6-12M39 30c6 3 8 9 6 12'/><circle cx='0' cy='0' r='7'/><circle cx='60' cy='0' r='7'/><circle cx='0' cy='60' r='7'/><circle cx='60' cy='60' r='7'/><path d='M7 7l14 14M53 7L39 21M7 53l14-14M53 53L39 39' stroke-dasharray='1.5 2.5'/></g><g fill='white' fill-opacity='.7'><circle cx='30' cy='30' r='1.5'/><circle cx='30' cy='12' r='1.2'/><circle cx='30' cy='48' r='1.2'/><circle cx='12' cy='30' r='1.2'/><circle cx='48' cy='30' r='1.2'/></g></svg>`;
+const laceSm = lace.replace("width='60' height='60'","width='34' height='34'").replace(/stroke-opacity='.75'/,"stroke-opacity='.6'");
+document.documentElement.style.setProperty("--lace",`url("data:image/svg+xml,${encodeURIComponent(lace)}")`);
+document.documentElement.style.setProperty("--lace-sm",`url("data:image/svg+xml,${encodeURIComponent(laceSm)}")`);
+
+// Spitzen-Bordüre oben/unten auf jeder Karte
+const bandSvg = (()=>{let p="";for(let x=0;x<=480;x+=24){p+=`<path d="M${x} 0 a12 12 0 0 0 24 0" /><circle cx="${x+12}" cy="6" r="2.2"/>`}
+  return `<svg class="lace-band" viewBox="0 0 480 26" preserveAspectRatio="none"><g fill="none" stroke="#d9c5a4" stroke-width="1">${p}</g></svg>`})();
+
+// Zufällige, aber feste Schleierkraut-Zweige
+let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+function gyp(w,h,n){
+  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">`;
+  let stems="",fl="",ctr="";
+  for(let i=0;i<n;i++){
+    const a=(rnd()*0.5+0.05)*Math.PI, L=(0.45+rnd()*0.55)*Math.min(w,h)*1.1;
+    const ex=Math.cos(a)*L, ey=Math.sin(a)*L, cx=ex*0.5+(rnd()-.5)*30, cy=ey*0.5+(rnd()-.5)*30;
+    stems+=`<path d="M0 0Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}"/>`;
+    const k=3+Math.floor(rnd()*5);
+    for(let j=0;j<k;j++){
+      const t=0.55+rnd()*0.45, px=ex*t+(rnd()-.5)*22, py=ey*t+(rnd()-.5)*22, r=2+rnd()*2.6;
+      stems+=`<path d="M${(ex*t*0.9).toFixed(1)} ${(ey*t*0.9).toFixed(1)}L${px.toFixed(1)} ${py.toFixed(1)}"/>`;
+      fl+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r.toFixed(1)}"/>`;
+      ctr+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${(r*0.35).toFixed(1)}"/>`;
+    }
+  }
+  s+=`<g fill="none" stroke="#a99a7c" stroke-width=".7" opacity=".75">${stems}</g><g fill="#fffdf8" stroke="#e3d6c0" stroke-width=".6">${fl}</g><g fill="#e2cfa6">${ctr}</g></svg>`;
+  return s;
+}
+document.querySelectorAll(".card").forEach((c,i)=>{
+  c.insertAdjacentHTML("afterbegin",bandSvg+bandSvg.replace('class="lace-band"','class="lace-band bot"').replace('lace-band"','lace-band bot"'));
+  c.querySelectorAll(".lace-band")[0].classList.add("top");
+  const g1=document.createElement("div");g1.className="deco";g1.style.cssText="left:-6px;bottom:-6px;transform:scaleY(-1)";g1.innerHTML=gyp(130,130,6);
+  const g2=document.createElement("div");g2.className="deco";g2.style.cssText="right:-6px;top:-6px;transform:scaleX(-1)";g2.innerHTML=gyp(110,110,5);
+  const g3=document.createElement("div");g3.className="deco";g3.style.cssText="right:-6px;bottom:-6px;transform:scale(-1,-1);opacity:.85";g3.innerHTML=gyp(90,90,4);
+  c.append(g1,g2,g3);
+});
+// Hintergrund-Blüten rund um den Umschlag
+[["left:-20px;top:-20px",""],["right:-20px;bottom:-20px","scale(-1,-1)"],["left:-20px;bottom:-20px","scaleY(-1)"],["right:-20px;top:-20px","scaleX(-1)"]].forEach(([pos,tf],i)=>{
+  const d=document.createElement("div");d.className="bg-flowers";d.style.cssText=pos+";transform:"+tf;d.innerHTML=gyp(i<2?230:170,i<2?230:170,i<2?11:7);document.body.appendChild(d);
+});
+// Bokeh
+const bk=document.getElementById("bokeh");
+for(let i=0;i<16;i++){const e=document.createElement("i");const s=40+rnd()*140;e.style.cssText=`width:${s}px;height:${s}px;left:${rnd()*100}%;top:${rnd()*100}%;opacity:${.3+rnd()*.6}`;bk.appendChild(e)}
+
+applyLang();
+</script>
+</body>
+</html>
